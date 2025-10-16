@@ -75,7 +75,7 @@ I love solving real-world problems with clean, efficient, and well-structured co
 
 <div align="center">
   <a href="#"><img src="https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=About.me&logoColor=white" /></a>
-  <a href="#"><img src="https://img.shields.io/badge/LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+  <a href="https://www.linkedin.com/in/arhamnasir7"><img src="https://img.shields.io/badge/LinkedIn-000000?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
   <a href="#"><img src="https://img.shields.io/badge/Facebook-000000?style=for-the-badge&logo=facebook&logoColor=white" /></a>
   <a href="#"><img src="https://img.shields.io/badge/Instagram-000000?style=for-the-badge&logo=instagram&logoColor=white" /></a>
 </div>

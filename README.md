@@ -48,7 +48,7 @@ I’m a passionate **Web Developer** who loves coding, building projects, and co
 
 ## Contribution Snake
 <p align="center"> 
-  <img src="https://raw.githubusercontent.com/NxSYED-ux/NxSYED-ux/main/github-contribution-grid-snake.svg" alt="Contribution Snake" /> 
+  <img src="https://raw.githubusercontent.com/Arham70/Arham70/main/github-contribution-grid-snake.svg" alt="Contribution Snake" /> 
 </p>
 
 ---

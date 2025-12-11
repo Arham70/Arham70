@@ -1,29 +1,93 @@
-name: Generate Contribution
+name: Random Day Snake
 
 on:
   schedule:
-    - cron: "0 */12 * * *" # Runs every 12 hours
+    # Runs Monday (1) through Friday (5) at 09:00 UTC
+    - cron: "0 9 * * 1-5"
   workflow_dispatch:
 
 jobs:
-  build:
+  run_randomly:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:
-      # Checkout the repository
-      - uses: actions/checkout@v3
 
-      # Generate the snake SVG
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # --- STEP 1: ROLL THE DICE ---
+      - name: Roll the Dice
+        id: dice
+        run: |
+          # 20% Chance to run (1 in 5)
+          if [ $((RANDOM % 5)) -eq 0 ]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            echo "Result: ACTIVE. Running commits today."
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            echo "Result: SKIP. Staying quiet today."
+          fi
+
+      # --- STEP 2: PICK RANDOM MESSAGE ---
+      - name: Pick Random Message
+        if: steps.dice.outputs.should_run == 'true'
+        id: msg_gen
+        run: |
+          # List of realistic messages
+          messages=(
+            "refactor: optimize internal logic"
+            "fix: minor typo in documentation"
+            "chore: update daily logs"
+            "feat: improve script performance"
+            "style: code formatting adjustments"
+            "docs: update activity tracker"
+            "fix: resolve small merge conflict"
+            "chore: clean up unused variables"
+            "wip: work in progress check-in"
+            "refactor: simplify data processing"
+          )
+          # Pick one random message
+          random_msg=${messages[$((RANDOM % ${#messages[@]}))]}
+          echo "text=$random_msg" >> $GITHUB_OUTPUT
+
+      # --- STEP 3: COMMIT 1 (LOG UPDATE) ---
+      - name: Create Dummy Change
+        if: steps.dice.outputs.should_run == 'true'
+        run: |
+          echo "Activity check: $(date)" >> daily-log.txt
+
+      - name: Push Commit 1
+        if: steps.dice.outputs.should_run == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "daily-log.txt"
+          # Uses the random message generated in Step 2
+          message: "${{ steps.msg_gen.outputs.text }}"
+          author_name: "Arham70"
+          author_email: "nasirarham656@gmail.com"
+
+      # --- STEP 4: THE GAP (SLEEP) ---
+      - name: Wait for Gap (1-2 Hours)
+        if: steps.dice.outputs.should_run == 'true'
+        run: |
+          echo "Waiting to simulate work gap..."
+          sleep $(( (RANDOM % 3600) + 3600 ))
+
+      # --- STEP 5: COMMIT 2 (SNAKE) ---
       - name: Generate Snake
+        if: steps.dice.outputs.should_run == 'true'
         uses: Platane/snk@v3
         with:
           github_user_name: Arham70
           outputs: github-contribution-grid-snake.svg
 
-      # Push the generated file
-      - name: Push Snake to main
+      - name: Push Snake
+        if: steps.dice.outputs.should_run == 'true'
         uses: EndBug/add-and-commit@v9
         with:
           add: "github-contribution-grid-snake.svg"
-          message: "Update contribution snake"
+          message: "chore: update contribution graph"
+          author_name: "Arham70"
+          author_email: "nasirarham656@gmail.com"
